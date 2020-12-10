@@ -12,6 +12,7 @@
 - Swagger
 - h2 database
 - jpa
+- security jwt
 
 기술적인 집중 요소
 ---
