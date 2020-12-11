@@ -1,6 +1,5 @@
 package com.pay.billing.domain.dto;
 
-import com.pay.billing.domain.model.Role;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public class UserResponseDTO {
     @ApiModelProperty(position = 2)
     private String email;
     @ApiModelProperty(position = 3)
-    List<Role> roles;
+    List<RoleDTO> roleDTOList;
 
     public Integer getId() {
         return id;
@@ -40,12 +39,12 @@ public class UserResponseDTO {
         this.email = email;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public List<RoleDTO> getRoleDTOS() {
+        return roleDTOList;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setRoleDTOS(List<RoleDTO> roleDTOList) {
+        this.roleDTOList = roleDTOList;
     }
 
 }

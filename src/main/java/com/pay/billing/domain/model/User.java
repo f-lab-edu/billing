@@ -1,5 +1,7 @@
 package com.pay.billing.domain.model;
 
+import com.pay.billing.domain.dto.RoleDTO;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -44,7 +46,7 @@ public class User {
     @ElementCollection의 관계 Key는 부모의 PK나 혹은 PK에 준하는 각 부모별로 동일한 값이 나올 수 없는 것으로 지정해야 한다.
     */
     @ElementCollection(fetch = FetchType.EAGER)
-    List<Role> roles;
+    List<RoleDTO> roles;
 
     public Integer getId() {
         return id;
@@ -78,11 +80,11 @@ public class User {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public List<RoleDTO> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(List<RoleDTO> roleDTOS) {
         this.roles = roles;
     }
 

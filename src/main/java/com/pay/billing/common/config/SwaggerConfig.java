@@ -41,7 +41,8 @@ public class SwaggerConfig {
 
     private ApiInfo swaggerInfo() {
         return new ApiInfoBuilder().title("빌링 시스템 개발")
-                .description("카드결제 / 결제취소 / 결제정보 조회 REST API 개발 문서입니다").build();
+                .description("유저인증 / 카드결제 / 결제취소 / 결제정보 \n" +
+                        "REST API 개발 문서입니다").build();
     }
 
     // 보안 체계(Authorization)를 jwt를 header에 삽입하여 사용
