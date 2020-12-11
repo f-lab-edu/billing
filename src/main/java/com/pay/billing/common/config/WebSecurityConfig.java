@@ -26,60 +26,61 @@ WebSecurityConfigurerAdapter는 사용자 지정 보안 구성을 제공하도�
 */
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Autowired
-  private JwtTokenProvider jwtTokenProvider;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
-  @Override
-  // 메서드 내에서 보호, 비보호 API 엔드 포인트를 정의하는 패턴을 구성합니다.
-  // 쿠키를 사용하지 않기 때문에 CSRF 보호를 비활성화했습니다.
-  protected void configure(HttpSecurity http) throws Exception {
+    @Override
+    // 메서드 내에서 보호, 비보호 API 엔드 포인트를 정의하는 패턴을 구성합니다.
+    // 쿠키를 사용하지 않기 때문에 CSRF 보호를 비활성화했습니다.
+    protected void configure(HttpSecurity http) throws Exception {
 
-    http.csrf().disable();
+        http.csrf().disable();
 
-    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-    http.authorizeRequests()//
-        .antMatchers("/users/signin").permitAll()//
-        .antMatchers("/users/signup").permitAll()//
-        .antMatchers("/h2-console/**/**").permitAll()
-        // 다른것들은 모두 비활성화
-        .anyRequest().authenticated();
+        http.authorizeRequests()
+                .antMatchers("/users/signin").permitAll()
+                .antMatchers("/users/signup").permitAll()
+                .antMatchers("/h2-console/**/**").permitAll()
+                // 다른것들은 모두 비활성화
+                .anyRequest().authenticated();
 
-    // 요구사항을 만족하지 않는다면 예외(exceptionHandling)를 발생 시킨다.
-    http.exceptionHandling().accessDeniedPage("/login");
+        // 요구사항을 만족하지 않는다면 예외(exceptionHandling)를 발생 시킨다.
+        http.exceptionHandling().accessDeniedPage("/login");
 
-    // Security에 JWT 적용
-    http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
+        // Security에 JWT 적용
+        http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
-    // Optional, if you want to test the API from a browser
-    // http.httpBasic();
-  }
+        // Optional, if you want to test the API from a browser
+        // http.httpBasic();
+    }
 
-  @Override
-  public void configure(WebSecurity web) throws Exception {
-    // 인증없이 swagger에는 사용하게 설정
-    web.ignoring().antMatchers("/v2/api-docs")//
-        .antMatchers("/swagger-resources/**")//
-        .antMatchers("/swagger-ui.html")//
-        .antMatchers("/configuration/**")//
-        .antMatchers("/webjars/**")//
-        .antMatchers("/public")
-        
-        // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
-        .and()
-        .ignoring()
-        .antMatchers("/h2-console/**/**");;
-  }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        // 인증없이 swagger에는 사용하게 설정
+        web.ignoring().antMatchers("/v2/api-docs")
+                .antMatchers("/swagger-resources/**")
+                .antMatchers("/swagger-ui.html")
+                .antMatchers("/configuration/**")
+                .antMatchers("/webjars/**")
+                .antMatchers("/public")
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder(12);
-  }
+                // Un-secure H2 Database (for testing purposes, H2 console shouldn't be unprotected in production)
+                .and()
+                .ignoring()
+                .antMatchers("/h2-console/**/**");
+        ;
+    }
 
-  @Override
-  @Bean
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
 }
