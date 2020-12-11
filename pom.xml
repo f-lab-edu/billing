@@ -76,7 +76,9 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- JSON Web Token Support -->
+		<!-- JSON Web Token Support
+		Spring Boot 및 Spring Security 덕분에
+		JWT 인증 서비스를 기록적인 시간 내에 가동 및 실행 -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>

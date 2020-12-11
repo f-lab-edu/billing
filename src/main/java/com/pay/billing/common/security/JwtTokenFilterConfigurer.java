@@ -9,6 +9,7 @@ public class JwtTokenFilterConfigurer extends SecurityConfigurerAdapter<DefaultS
 
   private JwtTokenProvider jwtTokenProvider;
 
+  // 스프링 부트 security JwtTokenFilter을 추가합니다
   public JwtTokenFilterConfigurer(JwtTokenProvider jwtTokenProvider) {
     this.jwtTokenProvider = jwtTokenProvider;
   }

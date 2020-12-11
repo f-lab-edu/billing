@@ -18,32 +18,37 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+/*
+WebSecurityConfigurerAdapter는 사용자 지정 보안 구성을 제공하도록 확장 됩니다.
+이 클래스에서 아래 Bean이 구성되고 인스턴스화됩니다.
+- JwtTokenFilter
+- PasswordEncoder
+*/
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   private JwtTokenProvider jwtTokenProvider;
 
   @Override
+  // 메서드 내에서 보호, 비보호 API 엔드 포인트를 정의하는 패턴을 구성합니다.
+  // 쿠키를 사용하지 않기 때문에 CSRF 보호를 비활성화했습니다.
   protected void configure(HttpSecurity http) throws Exception {
 
-    // Disable CSRF (cross site request forgery)
     http.csrf().disable();
 
-    // No session will be created or used by spring security
     http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-    // Entry points
     http.authorizeRequests()//
         .antMatchers("/users/signin").permitAll()//
         .antMatchers("/users/signup").permitAll()//
         .antMatchers("/h2-console/**/**").permitAll()
-        // Disallow everything else..
+        // 다른것들은 모두 비활성화
         .anyRequest().authenticated();
 
-    // If a user try to access a resource without having enough permissions
+    // 요구사항을 만족하지 않는다면 예외(exceptionHandling)를 발생 시킨다.
     http.exceptionHandling().accessDeniedPage("/login");
 
-    // Apply JWT
+    // Security에 JWT 적용
     http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
     // Optional, if you want to test the API from a browser
@@ -52,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(WebSecurity web) throws Exception {
-    // Allow swagger to be accessed without authentication
+    // 인증없이 swagger에는 사용하게 설정
     web.ignoring().antMatchers("/v2/api-docs")//
         .antMatchers("/swagger-resources/**")//
         .antMatchers("/swagger-ui.html")//
