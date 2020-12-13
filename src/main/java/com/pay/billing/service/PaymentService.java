@@ -1,14 +1,26 @@
 package com.pay.billing.service;
 
 import com.pay.billing.domain.dto.PaymentDTO;
+import com.pay.billing.domain.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 public class PaymentService {
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    @Autowired
+    private PaymentCancelRepository pamentCancelRepository;
+
+    @Autowired
+    private DataTransferRepository dataTransferRepository;
 
     /**
      * 신규거래 등록
