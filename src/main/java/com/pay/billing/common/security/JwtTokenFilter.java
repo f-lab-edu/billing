@@ -42,7 +42,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             ThreadLocal 에 있는 SecurityContext 를 제거하는 역할
             SecurityContextHolder.clearContext() 가 실행되기 전에 어떤 시점에서
             SecurityContext 객체를 HttpSession 에 저장하는 처리를 먼저 하게 됩니다.
-            참조: https://www.inflearn.com/questions/53657
              */
             SecurityContextHolder.clearContext();
             httpServletResponse.sendError(ex.getHttpStatus().value(), ex.getMessage());

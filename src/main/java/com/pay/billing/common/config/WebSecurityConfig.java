@@ -43,16 +43,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/signup").permitAll()
                 .antMatchers("/h2-console/**/**").permitAll()
                 // 다른것들은 모두 비활성화
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .defaultSuccessUrl("/swagger-ui.html");
 
-        // 요구사항을 만족하지 않는다면 예외(exceptionHandling)를 발생 시킨다.
-        http.exceptionHandling().accessDeniedPage("/login");
+        // 인증 오류 처리시 accessDenied.jsp 페이지 지정
+        http.exceptionHandling().accessDeniedPage("/login?error");
 
         // Security에 JWT 적용
         http.apply(new JwtTokenFilterConfigurer(jwtTokenProvider));
 
-        // Optional, if you want to test the API from a browser
-        // http.httpBasic();
     }
 
     @Override
