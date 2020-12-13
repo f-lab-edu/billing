@@ -1,6 +1,6 @@
 package com.pay.billing;
 
-import com.pay.billing.domain.model.Role;
+import com.pay.billing.domain.dto.RoleDTO;
 import com.pay.billing.domain.model.User;
 import com.pay.billing.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -34,7 +34,7 @@ public class BillingApplication implements CommandLineRunner {
         admin.setUsername("admin");
         admin.setPassword("admin");
         admin.setEmail("admin@email.com");
-        admin.setRoles(new ArrayList<Role>(Arrays.asList(Role.ROLE_ADMIN)));
+        admin.setRoleDTOS(new ArrayList<RoleDTO>(Arrays.asList(RoleDTO.ROLE_ADMIN)));
 
         userService.signup(admin);
     }
